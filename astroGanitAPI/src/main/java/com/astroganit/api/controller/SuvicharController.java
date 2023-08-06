@@ -37,4 +37,9 @@ public class SuvicharController {
 		return ResponseEntity.ok(allSuvicharURL);
 	}
 	
+	@GetMapping("/suvicharimageurl/{dayNightValues}/{daysValue}/{langCode}")
+	public ResponseEntity<Response> getSuvicharByIds(@PathVariable String dayNightValues,@PathVariable String daysValue,@PathVariable String langCode){
+		Response response = this.suService.getSuvicharByIds(dayNightValues, daysValue, langCode);
+		return ResponseEntity.ok(response);
+	}
 }

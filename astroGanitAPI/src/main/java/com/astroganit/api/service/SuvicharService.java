@@ -11,4 +11,6 @@ public interface SuvicharService {
 	
 	Response getAllSuvicharURL(int langCode);
 	
+	Response getSuvicharByIds(String dayNightValue,String daysValue,String langCode);
+	
 }
