@@ -10,7 +10,7 @@ import com.astroganit.api.entities.Suvichar;
 
 public interface SuvicharRepo extends JpaRepository<Suvichar, Integer>{
 
-	@Query(nativeQuery = true,value = "select * from ( SELECT * FROM suvichar where  day_value=:daysValue and lang_code=:langCode union SELECT * FROM suvichar where  day_value!=:daysValue and lang_code=:langCode ) as A  where A.day_night = :dayNightValue union select * from ( SELECT * FROM suvichar where  day_value=:daysValue and lang_code=:langCode union SELECT * FROM suvichar where  day_value!=:daysValue and lang_code=:langCode ) as A  where A.day_night !=:dayNightValue")
+	@Query(nativeQuery = true,value = "select * from ( SELECT * FROM suvichar where  day_value=:daysValue and lang_code=:langCode union SELECT * FROM suvichar where  day_value!=:daysValue and lang_code=:langCode ) as A  where A.day_night =:dayNightValue ")
 	public List<Suvichar> getURL(@Param("dayNightValue") String dayNightValue,@Param("daysValue") String daysValue,@Param("langCode") String langCode);
 
 }
