@@ -97,8 +97,9 @@ public class SuvicharServiceImp implements SuvicharService{
 	}
 
 	@Override
+	@Cacheable(cacheNames = "suvicharImageURL",key = "{#dayNightValue,#daysValue,#langCode}")
 	public Response getSuvicharByIds(String dayNightValue, String daysValue, String langCode) {
-		// TODO Auto-generated method stub
+		
 		if(dayNightValue==null || dayNightValue.isEmpty()) {
 			dayNightValue="1";
 		}
