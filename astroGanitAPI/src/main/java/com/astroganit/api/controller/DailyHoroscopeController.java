@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.astroganit.api.payload.DailyHoroscopeAspect;
 import com.astroganit.api.payload.YearlyHoroscopeAspect;
+import com.astroganit.api.payload.YearlyHoroscopeAspect24;
 import com.astroganit.api.service.DailyHoroscopeService;
 import com.astroganit.api.service.YearlyHoroscopeService;
 
@@ -68,5 +69,14 @@ public class DailyHoroscopeController {
 		return ResponseEntity.status(HttpStatus.OK).body(yearlyHoroscope);
 	}
 	
+	@GetMapping("/yearlyHoroscope24/{langCode}")
+	public ResponseEntity<List<YearlyHoroscopeAspect24>> getYearlyHoroscope24(@PathVariable("langCode") String langCode){
+		String cYear = "2023";
+		List<YearlyHoroscopeAspect24> yearlyHoroscope = this.yearlyService.getYearlyHoroscope24(cYear);
+		if(yearlyHoroscope==null) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+		}
+		return ResponseEntity.status(HttpStatus.OK).body(yearlyHoroscope);
+	}
 	
 }
