@@ -84,6 +84,9 @@ public class YearlyHoroscopeServiceImpl implements YearlyHoroscopeService {
 				if(j==6) {
 					YHA.setHealth(yearlyHoroscope24[i][j]);
 				}
+				if(j==7) {
+					YHA.setFamily(yearlyHoroscope24[i][j]);
+				}
 				
 			}
 			listYearlyAspect.add(YHA);

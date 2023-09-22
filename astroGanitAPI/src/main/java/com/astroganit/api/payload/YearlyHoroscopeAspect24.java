@@ -9,6 +9,7 @@ public class YearlyHoroscopeAspect24 {
 	private String carrer;
 	private String love;
 	private String health;
+	private String family;
 	
 	
 	public String getEducation() {
@@ -52,6 +53,12 @@ public class YearlyHoroscopeAspect24 {
 	}
 	public void setHealth(String health) {
 		this.health = health;
+	}
+	public String getFamily() {
+		return family;
+	}
+	public void setFamily(String family) {
+		this.family = family;
 	}
 	
 	
