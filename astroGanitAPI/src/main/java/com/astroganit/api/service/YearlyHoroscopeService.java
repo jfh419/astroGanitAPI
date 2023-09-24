@@ -12,6 +12,6 @@ public interface YearlyHoroscopeService {
 
 	public List<YearlyHoroscopeAspect> getYearlyHoroscope(String year);
 	
-	public List<YearlyHoroscopeAspect24> getYearlyHoroscope24(String year);
+	public List<YearlyHoroscopeAspect24> getYearlyHoroscope24(String year,String langCode);
 	
 }

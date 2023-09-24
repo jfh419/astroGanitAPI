@@ -71,8 +71,8 @@ public class DailyHoroscopeController {
 	
 	@GetMapping("/yearlyHoroscope24/{langCode}")
 	public ResponseEntity<List<YearlyHoroscopeAspect24>> getYearlyHoroscope24(@PathVariable("langCode") String langCode){
-		String cYear = "2023";
-		List<YearlyHoroscopeAspect24> yearlyHoroscope = this.yearlyService.getYearlyHoroscope24(cYear);
+		String cYear = "2024";
+		List<YearlyHoroscopeAspect24> yearlyHoroscope = this.yearlyService.getYearlyHoroscope24(cYear,langCode);
 		if(yearlyHoroscope==null) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 		}
