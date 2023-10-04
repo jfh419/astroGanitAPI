@@ -10,8 +10,11 @@ import com.astroganit.api.entities.DailyHoroscope;
 import com.astroganit.api.payload.DailyHorosocpeSentence;
 @Repository
 public interface DailHoroscopeRepository extends JpaRepository<DailyHoroscope, Integer>{
-
+	
 	public DailyHoroscope findBySequenceNoAndSentenceId(int seq,int sId);
+	
+	@Query("Select new com.astroganit.api.payload.DailyHorosocpeSentence(DH.sentence) From DailyHoroscope DH where DH.sequenceNo=:seq and DH.sentenceId=:sId and DH.langCode=:langCode")
+	public DailyHorosocpeSentence getAllLangSentence(int seq,int sId,int langCode);
 	
 	@Query("Select new com.astroganit.api.payload.DailyHorosocpeSentence(DH.sentence) From DailyHoroscope DH where DH.sequenceNo=:seq and DH.sentenceId=:sId")
 	public DailyHorosocpeSentence getSentence(int seq,int sId);

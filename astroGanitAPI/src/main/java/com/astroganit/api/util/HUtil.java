@@ -9,4 +9,15 @@ public class HUtil {
 	{ 
 		return (int)(Math.ceil(n)) == (int)(Math.floor(n)); 
 	} 
+	public static int strToInt(String str) {
+		
+		int intValue;
+		try {
+			intValue = Integer.parseInt(str);
+		}
+		catch (NumberFormatException e) {
+			intValue = 2;
+		}
+		return intValue;
+	}
 }

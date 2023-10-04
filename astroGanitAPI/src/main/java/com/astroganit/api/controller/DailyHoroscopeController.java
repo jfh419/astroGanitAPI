@@ -35,7 +35,7 @@ public class DailyHoroscopeController {
 
 	    String todate=formattedDate;
 	    
-	    List<DailyHoroscopeAspect> dh =this.dailyService.getHoroscopeByDay(todate);
+	    List<DailyHoroscopeAspect> dh =this.dailyService.getHoroscopeByDay(todate,langCode);
 				 
 	        if (dh==null){
 	            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();

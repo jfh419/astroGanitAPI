@@ -8,7 +8,7 @@ import com.astroganit.api.payload.DailyHoroscopeAspect;
 
 public interface DailyHoroscopeService {
 
-	public List<DailyHoroscopeAspect> getHoroscopeByDay(String todate);
+	public List<DailyHoroscopeAspect> getHoroscopeByDay(String todate,String langCode);
 	public List<DailyHoroscopeAspect> getHoroscopeByDayWithSenctenceId(String todate);
 	
 	

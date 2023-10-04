@@ -23,10 +23,22 @@ public class DailyHorosocpeServiceImpl implements DailyHoroscopeService {
 	private DailHoroscopeRepository dailyRepo;
 	
 	@Override
-	@Cacheable(cacheNames = "DailyHoroscopeRashi" ,key = "#todate")
-	public List<DailyHoroscopeAspect> getHoroscopeByDay(String todate) {
+	@Cacheable(cacheNames = "DailyHoroscopeRashi" ,key = "{#todate,#langCode}")
+	public List<DailyHoroscopeAspect> getHoroscopeByDay(String todate,String langCode) {
 		// TODO Auto-generated method stub
+		int lCode;
 		System.out.println("fetching the details from db");
+		if(langCode.equals("") ||langCode==null) {
+			lCode=2;
+		}
+		else if(langCode.equals("1")) {
+			lCode=1;
+		}else if(langCode.equals("2")) {
+			lCode=2;
+		}else {
+			lCode=2;
+		}
+		
 		Random rand ; 
 		//String aspectName []= {"love","wealth","family","carrer","health"};
 		//total number of aspect in db of horoscope
@@ -61,7 +73,7 @@ public class DailyHorosocpeServiceImpl implements DailyHoroscopeService {
 					int sentenceId=rand.nextInt(sentenceCount); 
 					
 										
-					DailyHorosocpeSentence dailyHoro=this.dailyRepo.getSentence(sequenceNo, sentenceId);
+					DailyHorosocpeSentence dailyHoro=this.dailyRepo.getAllLangSentence(sequenceNo, sentenceId,lCode);
 					
 					if(aspect==0) {
 						DHA.setLove(dailyHoro.getSentence());
