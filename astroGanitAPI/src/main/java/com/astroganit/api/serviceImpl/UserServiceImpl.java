@@ -153,12 +153,12 @@ public class UserServiceImpl implements UserService {
 			UserDto userDto1 = this.modelMapper.map(updateUser, UserDto.class);
 			
 			response.setResultCode(1);
-			response.setMessage("User profile Updated Successfully.");
+			response.setMessage("Successfully.");
 			response.setData(Arrays.asList(userDto1));
 			
 		}else {
-			response.setResultCode(2);
-			response.setMessage("User Not Found.");
+			response.setResultCode(5);
+			response.setMessage("User not found");
 			response.setData(Arrays.asList());
 		}
 		
@@ -213,7 +213,7 @@ public class UserServiceImpl implements UserService {
 				if(isUserActive) {
 					if(isUserVerified) {
 						response.setResultCode(1);
-						response.setMessage("User Verified");
+						response.setMessage("Successfully");
 						response.setData(Arrays.asList(loginUser));
 					}else {
 						String otpResponse="";
@@ -222,18 +222,18 @@ public class UserServiceImpl implements UserService {
 						//write here send otp code
 						otpResponse = this.sendOTPForLoginSignup(mobile);
 						if(otpResponse.equalsIgnoreCase("COUNTGT")) {
-							response.setResultCode(21); //sent otp count gt 3 within 15 min
+							response.setResultCode(10); //sent otp count gt 3 within 15 min
 						}else if(otpResponse.equalsIgnoreCase("EXCEPTION")) {
-							response.setResultCode(22); //Getting exception 
+							response.setResultCode(11); //Getting exception 
 						}
 						else {
-							response.setResultCode(20); //otp send
+							response.setResultCode(12); //otp send successfully
 						}
 						response.setMessage(otpResponse);
 					}
 				}else {
 					response.setResultCode(3);
-					response.setMessage("User deactived");
+					response.setMessage("User is not active");
 					response.setData(Arrays.asList(loginUser));
 				}
 			}
@@ -241,17 +241,17 @@ public class UserServiceImpl implements UserService {
 				Boolean checkMobileNumberExit = this.checkMobileNumberExit(mobile);
 				if(checkMobileNumberExit) {
 					response.setResultCode(4);
-					response.setMessage("Wrong Password");
+					response.setMessage("User password is Wrong");
 					response.setData(Arrays.asList(userDto));
 				}else {
 					response.setResultCode(5);
-					response.setMessage("User Not Registered Yet");
+					response.setMessage("User not found");
 					response.setData(Arrays.asList(userDto));
 				}
 			}
 		}else {
 			response.setResultCode(6);
-			response.setMessage("Mobile Number Or Password Or Both Is Null");
+			response.setMessage("In valid input parameter");
 			response.setData(Arrays.asList(userDto));
 		}
 		
@@ -281,22 +281,22 @@ public class UserServiceImpl implements UserService {
 					User updateUser = this.userRepo.save(user);
 					UserDto updatedDto = this.modelMapper.map(updateUser, UserDto.class);
 					response.setResultCode(1);
-					response.setMessage("Password Updated Successfully.");
+					response.setMessage("Successfully.");
 					response.setData(Arrays.asList(updatedDto));
 				}else {
-					response.setResultCode(2);
+					response.setResultCode(3);
 					response.setMessage("user is not active.");
 					response.setData(Arrays.asList(userDto));
 				}
 				
 			}else {
-				response.setResultCode(3);
-				response.setMessage("Mobile Number Does Not Exit.");
+				response.setResultCode(5);
+				response.setMessage("User not found");
 				response.setData(Arrays.asList(userDto));
 			}
 		}else{
-			response.setResultCode(4);
-			response.setMessage("Mobile Number Is Not Valid.");
+			response.setResultCode(6);
+			response.setMessage("In valid input parameter");
 			response.setData(Arrays.asList(userDto));
 		}
 		
@@ -357,8 +357,8 @@ public class UserServiceImpl implements UserService {
 				//sent otp api intigration here
 				try {
 					if(count>3) {
-						response.setResultCode(2);
-						response.setMessage("Sent otp count more then 3 within 15");
+						response.setResultCode(10);
+						response.setMessage("COUNTGT");
 						response.setData(Arrays.asList());
 						
 					}else {
@@ -370,18 +370,18 @@ public class UserServiceImpl implements UserService {
 					}
 				} catch (Exception e) {
 					// TODO: handle exception
-					response.setResultCode(3);
+					response.setResultCode(11);
 					response.setMessage(e.getMessage());
 					response.setData(Arrays.asList());
 				}
 			}else {
-				response.setResultCode(4);
-				response.setMessage("User is not activated.");
+				response.setResultCode(3);
+				response.setMessage("User is not active");
 				response.setData(Arrays.asList());
 			}
 		}else {
 			response.setResultCode(5);
-			response.setMessage("User not registered yet.");
+			response.setMessage("User not found");
 			response.setData(Arrays.asList());
 		}
 				
@@ -407,16 +407,16 @@ public class UserServiceImpl implements UserService {
 					user.setUpdatedDate(new Date());
 					this.userRepo.save(user);
 					response.setResultCode(1);
-					response.setMessage("valid otp");
+					response.setMessage("Successfully");
 				}else {
-					response.setResultCode(2);
+					response.setResultCode(13);
 					response.setMessage("valid otp but user already verified.");
 				}
 				
 			}
 			response.setData(Arrays.asList(findByMobileAndOtp));
 		}else {
-			response.setResultCode(3);
+			response.setResultCode(14);
 			response.setMessage("invalid otp");
 			response.setData(Arrays.asList(otpDto));
 		}
@@ -500,15 +500,15 @@ public class UserServiceImpl implements UserService {
 				User updateUser = this.userRepo.save(user);
 				UserDto userDto1 = this.modelMapper.map(updateUser, UserDto.class);
 				response.setResultCode(1);
-				response.setMessage("Deactivated successfully.");
+				response.setMessage("successfully.");
 				response.setData(Arrays.asList(userDto1));
 			}else {
-				response.setResultCode(2);
-				response.setMessage("User already Deactive");
+				response.setResultCode(7);
+				response.setMessage("User already Deactivate");
 				response.setData(Arrays.asList());
 			}
 		}else {
-			response.setResultCode(3);
+			response.setResultCode(5);
 			response.setMessage("User Not Found.");
 			response.setData(Arrays.asList());
 		}
@@ -532,15 +532,15 @@ public class UserServiceImpl implements UserService {
 				User updateUser = this.userRepo.save(user);
 				UserDto userDto1 = this.modelMapper.map(updateUser, UserDto.class);
 				response.setResultCode(1);
-				response.setMessage("Activated successfully.");
+				response.setMessage("successfully.");
 				response.setData(Arrays.asList(userDto1));
 			}else {
-				response.setResultCode(2);
+				response.setResultCode(8);
 				response.setMessage("User already Aactive");
 				response.setData(Arrays.asList());
 			}
 		}else {
-			response.setResultCode(3);
+			response.setResultCode(5);
 			response.setMessage("User Not Found.");
 			response.setData(Arrays.asList());
 		}

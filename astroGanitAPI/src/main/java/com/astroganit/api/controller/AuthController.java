@@ -87,12 +87,12 @@ public class AuthController {
 			//write here send otp code
 			otpResponse = this.userService.sendOTPForLoginSignup(mobileNo);
 		if(otpResponse.equalsIgnoreCase("COUNTGT")) {
-			response.setResultCode(21); //sent otp count gt 3 within 15 min
+			response.setResultCode(10); //sent otp count gt 3 within 15 min
 		}else if(otpResponse.equalsIgnoreCase("EXCEPTION")) {
-			response.setResultCode(22); //Getting exception 
+			response.setResultCode(11); //Getting exception 
 		}
 		else {
-			response.setResultCode(20); //otp send
+			response.setResultCode(1); //otp send
 		}
 		
 			response.setMessage(otpResponse);
@@ -100,7 +100,7 @@ public class AuthController {
 		}
 		else {
 			response.setResultCode(2);
-			response.setMessage("Not Created User Registered already.");
+			response.setMessage("User Registered already");
 			response.setData(Arrays.asList(userDto));
 		}
 		
