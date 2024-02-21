@@ -27,7 +27,7 @@ import com.astroganit.security.JwtAuthenticationFilter;
 public class SecurityConfig {
 
 	public  static final String[] PUBLIC_URLS= {
-			"/api/ganit/v1/auth/login",
+			"/api/ganit/v1/auth/token",
 			"/",
 			"/v3/api-docs",
 			"/v2/api-docs",
@@ -35,6 +35,9 @@ public class SecurityConfig {
 			"/swagger-ui/**",
 			"/webjars/**",
 			"/**"
+			};
+	public  static final String[] AUTH_URLS= {
+			"/api/user/update/profile/**"
 			};
 	
 	
@@ -52,6 +55,7 @@ public class SecurityConfig {
 			.csrf()
 			.disable()
 			.authorizeHttpRequests()
+			.antMatchers(AUTH_URLS).authenticated()
 			.antMatchers(PUBLIC_URLS).permitAll()
 			.anyRequest()
 			.authenticated()

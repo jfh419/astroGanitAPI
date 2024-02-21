@@ -1,24 +1,18 @@
 package com.astroganit.api.controller;
 
-import java.util.List;
-import java.util.Map;
 
-import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import com.astroganit.api.payload.ApiResponse;
+import com.astroganit.api.payload.OTPDto;
+import com.astroganit.api.payload.Response;
 import com.astroganit.api.payload.UserDto;
 import com.astroganit.api.service.UserService;
 
@@ -31,27 +25,45 @@ public class UserController {
 	
 		
 	//put update user
-	@PreAuthorize("hasRole('ADMIN')")
-	@PutMapping("/{userId}")
-	public ResponseEntity<UserDto> updateUser(@Valid @RequestBody UserDto useDto,@PathVariable("userId") Integer userId){
-		UserDto updateUserDto = this.userService.updateUser(useDto, userId);
+	//@PreAuthorize("hasRole('NORMAL')")
+	@PostMapping("/update/profile/{mobile}")
+	public ResponseEntity<Response> updateUserProfile(@RequestBody UserDto useDto,@PathVariable("mobile") String mobile){
+		Response updateUserDto = this.userService.updateUserProfile(useDto, mobile);
 		return ResponseEntity.ok(updateUserDto);
 	}
+		
+	@PostMapping("/login")
+	public ResponseEntity<Response> login(@RequestBody UserDto userDto){
+		Response loginResponse = this.userService.loginUser(userDto);
+		
+		return ResponseEntity.ok(loginResponse);
+	}
+
+	@PostMapping("/update/password")
+	public ResponseEntity<Response> updatePassword(@RequestBody UserDto useDto){
+		Response updatePassword = this.userService.updatePassword(useDto);
+		return ResponseEntity.ok(updatePassword);
+	}
 	
-	//delete user
-	@PreAuthorize("hasRole('ADMIN')")
-	@DeleteMapping("/{userId}")
-	public ResponseEntity<?> deleteUser(@PathVariable Integer userId){
-		this.userService.deleteUser(userId);
-		return new ResponseEntity<>(new ApiResponse("user deleted successfully"),HttpStatus.OK);
+	@GetMapping("/sendotp/{mobile}")
+	public ResponseEntity<Response> sendOTP(@PathVariable String mobile){
+		Response response= this.userService.sendOTP(mobile);	
+		return ResponseEntity.ok(response);
 	}
-	//get user
-	@GetMapping("/")
-	public ResponseEntity<List<UserDto>> getAllUser(){
-		return ResponseEntity.ok(this.userService.getallUsers());
+	
+	@PostMapping("/validateotp")
+	public ResponseEntity<Response> validateOTP(@RequestBody OTPDto otpDto){
+		 Response validateOTP = this.userService.validateOTP(otpDto);
+		return ResponseEntity.ok(validateOTP);
 	}
-	@GetMapping("/{userId}")
-	public ResponseEntity<UserDto> getUserById(@PathVariable Integer userId){
-		return ResponseEntity.ok(this.userService.getUserById(userId));
+	@PostMapping("/activateuser/{mobile}")
+	public ResponseEntity<Response> activateUser(@PathVariable String mobile){
+		Response activateUser = this.userService.activateUser(mobile);
+		return ResponseEntity.ok(activateUser);
+	}
+	@PostMapping("/deactivateuser/{mobile}")
+	public ResponseEntity<Response> dectivateUser(@PathVariable String mobile){
+		Response dectivateUser = this.userService.deactivateUser(mobile);
+		return ResponseEntity.ok(dectivateUser);
 	}
 }

@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.Column;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
@@ -24,7 +25,7 @@ public class UserDto {
 	
 	@NotEmpty
 	@NotNull
-	@Size(min = 4,message = "user name must be min of 4 char !!")
+	@Size(min = 3,message = "user name must be min of 3 char !!")
 	private String name;
 	
 	@Email
@@ -33,7 +34,6 @@ public class UserDto {
 	
 	@NotNull
 	@NotEmpty
-	@Size(min = 3,max = 10,message = "min 3 and max 10 character !!")
 	private String password;
 	
 	@NotNull
@@ -51,5 +51,78 @@ public class UserDto {
 	private Date updatedDate;
 	
 	private Set<RoleDto> roles = new HashSet<>();
+	
+	
+	private String dcrptpassword;
+	
+	
+	private String gender;
+	
+	
+	private String place;
+	
+	private String country;
+	
+	private String state;
+	
+	private String mobile;
+	
+	private String mobilecc;//mobile country code
+	
+	@JsonProperty
+	private String dayBirth;
+	
+	@JsonProperty
+	private String monthBirth;
+	
+	@JsonProperty
+	private String yearBirth;
+	
+	@JsonProperty
+	private String hourBirth;
+	
+	@JsonProperty
+	private String minuteBirth;
+	
+	@JsonProperty
+	private String secondBirth;
+	
+	private String latitude;
+	
+	@JsonProperty
+	private String latDeg;
+	
+	@JsonProperty
+	private String latMin;
+	
+	@JsonProperty
+	private String latNS;
+	
+	@JsonProperty
+	private String longitude;
+	
+	@JsonProperty
+	private String longDeg;
+	
+	@JsonProperty
+	private String longMin;
+	
+	@JsonProperty
+	private String longEW;
+	
+	@JsonProperty
+	private boolean userVerified;
+	
+	@JsonProperty
+	private String maritalStatus;
+	
+	@JsonProperty
+	private String deviceId;
+	
+	@JsonProperty
+	private String appVersion;
+	
+	@JsonProperty
+	private String androidVersion;
 	
 }

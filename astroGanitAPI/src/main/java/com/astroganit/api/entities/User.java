@@ -33,10 +33,12 @@ import lombok.Setter;
 @Getter
 @Setter
 public class User implements UserDetails{
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
-	@Column(name = "user_name",nullable = false,length = 100)
+	
+	@Column(name = "user_name",length = 100)
 	private String name;
 	
 	private String email;
@@ -54,6 +56,76 @@ public class User implements UserDetails{
 	
 	private String about;
 	
+	private String dcrptpassword;
+	
+	private String gender;
+	
+	private String place;
+	
+	private String country;
+	
+	private String state;
+	
+	private String mobile;
+	
+	private String mobilecc;//mobile country code
+	
+	@Column(name = "day_birth")
+	private String dayBirth;
+	
+	@Column(name = "month_birth")
+	private String monthBirth;
+	
+	@Column(name = "year_birth")
+	private String yearBirth;
+	
+	@Column(name = "hour_birth")
+	private String hourBirth;
+	
+	@Column(name = "minute_birth")
+	private String minuteBirth;
+	
+	@Column(name = "second_birth")
+	private String secondBirth;
+	
+	private String latitude;
+
+	@Column(name = "lat_deg")
+	private String latDeg;
+
+	@Column(name = "lat_min")
+	private String latMin;
+
+	@Column(name = "lat_ns")
+	private String latNS;
+	
+	private String longitude;
+	
+	@Column(name = "long_deg")
+	private String longDeg;
+	
+	@Column(name = "long_min")
+	private String longMin;
+	
+	@Column(name = "long_ew")
+	private String longEW;
+	
+	@Column(name = "user_verified")
+	private boolean userVerified;
+	
+	@Column(name = "marital_status")
+	private String maritalStatus;
+	
+	 
+	@Column(name = "device_id")
+	private String deviceId;
+	
+	@Column(name = "app_version")
+	private String appVersion;
+	
+	@Column(name = "android_version")
+	private String androidVersion;
+	
 	@ManyToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
 	@JoinTable(name="user_role",joinColumns=@JoinColumn(name="user",referencedColumnName ="id" ),inverseJoinColumns = @JoinColumn(name="role",referencedColumnName="id"))
 	private Set<Role> roles = new HashSet<>();
@@ -67,7 +139,7 @@ public class User implements UserDetails{
 	@Override
 	public String getUsername() {
 		// TODO Auto-generated method stub
-		return this.email;
+		return this.mobile;
 	}
 
 	@Override

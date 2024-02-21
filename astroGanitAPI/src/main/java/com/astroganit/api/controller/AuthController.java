@@ -1,5 +1,7 @@
 package com.astroganit.api.controller;
 
+import java.util.Arrays;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.astroganit.api.exception.UsernamePasswordException;
 import com.astroganit.api.payload.JwtAuthRequest;
 import com.astroganit.api.payload.JwtAuthResponse;
+import com.astroganit.api.payload.Response;
 import com.astroganit.api.payload.UserDto;
 import com.astroganit.api.service.UserService;
 import com.astroganit.security.JwtTokenHelper;
@@ -34,8 +37,8 @@ public class AuthController {
 	@Autowired
 	private UserService userService;
 	
-	@PostMapping("/login")
-	public ResponseEntity<JwtAuthResponse> createToken(@RequestBody JwtAuthRequest request) throws Exception{
+	@PostMapping("/token")
+	public ResponseEntity<Response> createToken(@RequestBody JwtAuthRequest request) throws Exception{
 	
 		this.authenticate(request.getUsername(),request.getPassword());
 		
@@ -43,9 +46,13 @@ public class AuthController {
 		
 		String generateToken = this.jwtTokenHelper.generateToken(userDetails);
 		
-		JwtAuthResponse response = new JwtAuthResponse();
-		response.setToken(generateToken);
-		return new ResponseEntity<JwtAuthResponse>(response,HttpStatus.OK);
+		Response response1 = new Response();
+		response1.setErrorMessage("");
+		response1.setStatus(HttpStatus.OK);
+		response1.setResultCode(1);
+		response1.setData(Arrays.asList(generateToken));
+		
+		return new ResponseEntity<Response>(response1,HttpStatus.OK);
 	}
 	
 	
@@ -65,9 +72,39 @@ public class AuthController {
 	}
 	//@PreAuthorize("hasRole('ADMIN')")
 	@PostMapping("/register")
-	public ResponseEntity<UserDto> registeredNewUser(@RequestBody UserDto userDto){
-		UserDto registeredUser = this.userService.registerNewUser(userDto);
-		return new ResponseEntity<UserDto>(registeredUser,HttpStatus.CREATED);
+	public ResponseEntity<Response> registeredNewUser(@RequestBody UserDto userDto){
+		userDto.setDcrptpassword(userDto.getPassword());
+		String mobileNo = userDto.getMobile();
+		Response response = new Response();
+		response.setErrorMessage("");
+		response.setStatus(HttpStatus.OK);
+		
+		boolean isUserExit = this.userService.checkMobileNumberExit(mobileNo);
+		
+		if(!isUserExit) {
+			UserDto registeredUser = this.userService.registerNewUser(userDto);
+			String otpResponse="";
+			//write here send otp code
+			otpResponse = this.userService.sendOTPForLoginSignup(mobileNo);
+		if(otpResponse.equalsIgnoreCase("COUNTGT")) {
+			response.setResultCode(21); //sent otp count gt 3 within 15 min
+		}else if(otpResponse.equalsIgnoreCase("EXCEPTION")) {
+			response.setResultCode(22); //Getting exception 
+		}
+		else {
+			response.setResultCode(20); //otp send
+		}
+		
+			response.setMessage(otpResponse);
+			response.setData(Arrays.asList(registeredUser));
+		}
+		else {
+			response.setResultCode(2);
+			response.setMessage("Not Created User Registered already.");
+			response.setData(Arrays.asList(userDto));
+		}
+		
+		return new ResponseEntity<Response>(response,HttpStatus.CREATED);
 	}
 	
 }
