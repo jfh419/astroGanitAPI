@@ -96,12 +96,12 @@ public class AuthController {
 		}
 		
 			response.setMessage(otpResponse);
-			response.setData(Arrays.asList(registeredUser));
+			response.setData(Arrays.asList());
 		}
 		else {
 			response.setResultCode(2);
 			response.setMessage("User Registered already");
-			response.setData(Arrays.asList(userDto));
+			response.setData(Arrays.asList());
 		}
 		
 		return new ResponseEntity<Response>(response,HttpStatus.CREATED);

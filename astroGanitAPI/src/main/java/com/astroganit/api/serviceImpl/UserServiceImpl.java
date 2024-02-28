@@ -20,6 +20,7 @@ import com.astroganit.api.exception.ResourceNotFoundException;
 import com.astroganit.api.payload.OTPDto;
 import com.astroganit.api.payload.Response;
 import com.astroganit.api.payload.UserDto;
+import com.astroganit.api.payload.UserResponse;
 import com.astroganit.api.repository.OTPRepo;
 import com.astroganit.api.repository.RoleRepo;
 import com.astroganit.api.repository.UserRepo;
@@ -149,12 +150,11 @@ public class UserServiceImpl implements UserService {
 				user.setAndroidVersion(userDto.getAndroidVersion());
 			}
 			
-			User updateUser = this.userRepo.save(user);
-			UserDto userDto1 = this.modelMapper.map(updateUser, UserDto.class);
-			
+			this.userRepo.save(user);
+						
 			response.setResultCode(1);
 			response.setMessage("Successfully.");
-			response.setData(Arrays.asList(userDto1));
+			response.setData(Arrays.asList());
 			
 		}else {
 			response.setResultCode(5);
@@ -208,17 +208,19 @@ public class UserServiceImpl implements UserService {
 			
 			if(userDetail.isPresent()) {
 				UserDto loginUser = this.modelMapper.map(userDetail.get(), UserDto.class);
+				UserResponse logedInUser = this.modelMapper.map(loginUser, UserResponse.class);
 				isUserVerified = loginUser.isUserVerified();
 				isUserActive = loginUser.isUserActive();
 				if(isUserActive) {
 					if(isUserVerified) {
 						response.setResultCode(1);
 						response.setMessage("Successfully");
-						response.setData(Arrays.asList(loginUser));
+						
+						response.setData(Arrays.asList(logedInUser));
 					}else {
 						String otpResponse="";
 						
-						response.setData(Arrays.asList(loginUser));
+						response.setData(Arrays.asList(logedInUser));
 						//write here send otp code
 						otpResponse = this.sendOTPForLoginSignup(mobile);
 						if(otpResponse.equalsIgnoreCase("COUNTGT")) {
@@ -234,7 +236,7 @@ public class UserServiceImpl implements UserService {
 				}else {
 					response.setResultCode(3);
 					response.setMessage("User is not active");
-					response.setData(Arrays.asList(loginUser));
+					response.setData(Arrays.asList());
 				}
 			}
 			else {
@@ -242,17 +244,17 @@ public class UserServiceImpl implements UserService {
 				if(checkMobileNumberExit) {
 					response.setResultCode(4);
 					response.setMessage("User password is Wrong");
-					response.setData(Arrays.asList(userDto));
+					response.setData(Arrays.asList());
 				}else {
 					response.setResultCode(5);
 					response.setMessage("User not found");
-					response.setData(Arrays.asList(userDto));
+					response.setData(Arrays.asList());
 				}
 			}
 		}else {
 			response.setResultCode(6);
 			response.setMessage("In valid input parameter");
-			response.setData(Arrays.asList(userDto));
+			response.setData(Arrays.asList());
 		}
 		
 		return response;
@@ -278,26 +280,26 @@ public class UserServiceImpl implements UserService {
 					user.setDcrptpassword(pass);
 					user.setPassword(this.passwordEncoder.encode(pass));
 					user.setUpdatedDate(new Date());
-					User updateUser = this.userRepo.save(user);
-					UserDto updatedDto = this.modelMapper.map(updateUser, UserDto.class);
+					this.userRepo.save(user);
+					
 					response.setResultCode(1);
 					response.setMessage("Successfully.");
-					response.setData(Arrays.asList(updatedDto));
+					response.setData(Arrays.asList());
 				}else {
 					response.setResultCode(3);
 					response.setMessage("user is not active.");
-					response.setData(Arrays.asList(userDto));
+					response.setData(Arrays.asList());
 				}
 				
 			}else {
 				response.setResultCode(5);
 				response.setMessage("User not found");
-				response.setData(Arrays.asList(userDto));
+				response.setData(Arrays.asList());
 			}
 		}else{
 			response.setResultCode(6);
 			response.setMessage("In valid input parameter");
-			response.setData(Arrays.asList(userDto));
+			response.setData(Arrays.asList());
 		}
 		
 		return response;
@@ -414,11 +416,11 @@ public class UserServiceImpl implements UserService {
 				}
 				
 			}
-			response.setData(Arrays.asList(findByMobileAndOtp));
+			response.setData(Arrays.asList());
 		}else {
 			response.setResultCode(14);
 			response.setMessage("invalid otp");
-			response.setData(Arrays.asList(otpDto));
+			response.setData(Arrays.asList());
 		}
 		return response;
 	}
@@ -456,7 +458,7 @@ public class UserServiceImpl implements UserService {
 			}
 			o.setOtp(random);
 			o.setUpdatedDate(new Date());
-			o.setCount(count+1);
+			o.setCount(count);
 			otpRepo.save(o);
 			
 		}else {
@@ -497,11 +499,11 @@ public class UserServiceImpl implements UserService {
 			if(isUserActive) {
 				user.setUserActive(false);
 				user.setUpdatedDate(new Date());
-				User updateUser = this.userRepo.save(user);
-				UserDto userDto1 = this.modelMapper.map(updateUser, UserDto.class);
+				this.userRepo.save(user);
+				
 				response.setResultCode(1);
 				response.setMessage("successfully.");
-				response.setData(Arrays.asList(userDto1));
+				response.setData(Arrays.asList());
 			}else {
 				response.setResultCode(7);
 				response.setMessage("User already Deactivate");
@@ -529,11 +531,11 @@ public class UserServiceImpl implements UserService {
 			if(!isUserActive) {
 				user.setUserActive(true);
 				user.setUpdatedDate(new Date());
-				User updateUser = this.userRepo.save(user);
-				UserDto userDto1 = this.modelMapper.map(updateUser, UserDto.class);
+				this.userRepo.save(user);
+				
 				response.setResultCode(1);
 				response.setMessage("successfully.");
-				response.setData(Arrays.asList(userDto1));
+				response.setData(Arrays.asList());
 			}else {
 				response.setResultCode(8);
 				response.setMessage("User already Aactive");

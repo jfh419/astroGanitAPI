@@ -4,6 +4,7 @@ package com.astroganit.api.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -11,6 +12,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.astroganit.api.payload.ApiResponse;
 import com.astroganit.api.payload.OTPDto;
 import com.astroganit.api.payload.Response;
 import com.astroganit.api.payload.UserDto;
@@ -30,6 +33,13 @@ public class UserController {
 	public ResponseEntity<Response> updateUserProfile(@RequestBody UserDto useDto,@PathVariable("mobile") String mobile){
 		Response updateUserDto = this.userService.updateUserProfile(useDto, mobile);
 		return ResponseEntity.ok(updateUserDto);
+	}
+	
+	//delete user
+	@PostMapping("/delete/{userId}")
+	public ResponseEntity<?> deleteUser(@PathVariable Integer userId){
+		this.userService.deleteUser(userId);
+		return new ResponseEntity<>(new ApiResponse("user deleted successfully"),HttpStatus.OK);
 	}
 		
 	@PostMapping("/login")
