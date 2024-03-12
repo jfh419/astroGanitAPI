@@ -140,6 +140,9 @@ public class UserServiceImpl implements UserService {
 			if(!HUtil.isNullEmpty(userDto.getLongEW())) {
 				user.setLongEW(userDto.getLongEW());
 			}
+			if(!HUtil.isNullEmpty(userDto.getTimeZone())) {
+				user.setTimeZone(userDto.getTimeZone());
+			}
 			if(!HUtil.isNullEmpty(userDto.getDeviceId())) {
 				user.setDeviceId(userDto.getDeviceId());
 			}

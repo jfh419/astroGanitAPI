@@ -110,6 +110,9 @@ public class User implements UserDetails{
 	@Column(name = "long_ew")
 	private String longEW;
 	
+	@Column(name = "time_zone")
+	private String timeZone;
+	
 	@Column(name = "user_verified")
 	private boolean userVerified;
 	

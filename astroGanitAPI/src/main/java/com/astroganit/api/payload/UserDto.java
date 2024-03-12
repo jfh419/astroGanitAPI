@@ -111,6 +111,9 @@ public class UserDto {
 	private String longEW;
 	
 	@JsonProperty
+	private String timeZone;
+	
+	@JsonProperty
 	private boolean userVerified;
 	
 	@JsonProperty
