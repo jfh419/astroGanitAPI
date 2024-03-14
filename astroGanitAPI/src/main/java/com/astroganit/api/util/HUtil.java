@@ -1,5 +1,8 @@
 package com.astroganit.api.util;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Optional;
 import java.util.Random;
 
@@ -31,7 +34,7 @@ public class HUtil {
 			intValue = Integer.parseInt(str);
 		}
 		catch (NumberFormatException e) {
-			intValue = 2;
+			intValue = 1;
 		}
 		return intValue;
 	}
@@ -43,4 +46,9 @@ public class HUtil {
 		}
 		return isEmpty;
 	}
+	
+	public static String readFile(String filePath) throws IOException {
+        return new String(Files.readAllBytes(Paths.get(filePath)));
+    }
+	
 }
