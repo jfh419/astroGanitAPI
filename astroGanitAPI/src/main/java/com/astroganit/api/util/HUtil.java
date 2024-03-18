@@ -1,14 +1,13 @@
 package com.astroganit.api.util;
 
-import java.io.File;
+
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
+import java.nio.charset.StandardCharsets;
 import java.util.Optional;
 import java.util.Random;
-
 import org.springframework.core.io.ClassPathResource;
-import org.springframework.core.io.Resource;
+import org.springframework.util.FileCopyUtils;
+
 
 public class HUtil {
 
@@ -52,9 +51,19 @@ public class HUtil {
 	}
 	
 	public static String readFile(String filePath) throws IOException {
-		Resource resource = new ClassPathResource(filePath);
-		File file = resource.getFile();
-		return new String(Files.readAllBytes(file.toPath()));
+		//classpath:json/baalkand/bk1.json
+		
+		String strJson = null;
+		
+        ClassPathResource classPathResource = new ClassPathResource(filePath);
+        try {
+            byte[] binaryData = FileCopyUtils.copyToByteArray(classPathResource.getInputStream());
+            strJson = new String(binaryData, StandardCharsets.UTF_8);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+		return strJson;
+		
     }
 	
 }
