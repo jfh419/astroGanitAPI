@@ -21,7 +21,8 @@ public class JSONServiceImp implements JSONService{
 		Response response = new Response();
 		
 		int id = HUtil.strToInt(sId);
-		String path="src/main/resources/json/baalkand/bk"+id+".json";
+		//String path="src/main/resources/json/baalkand/bk"+id+".json";
+		String path="json/baalkand/bk"+id+".json";
 		String file="";
 		try {
 			file = HUtil.readFile(path);

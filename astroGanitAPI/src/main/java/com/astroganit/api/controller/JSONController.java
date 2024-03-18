@@ -23,7 +23,7 @@ public class JSONController {
 	public ResponseEntity<Response> baalKandBySlok(@PathVariable String sId){
 		
 		Response baalKandBySlok = this.jsonService.getBaalKandBySlok(sId);
-		System.out.println(baalKandBySlok.getData());
+		
 		return ResponseEntity.ok(baalKandBySlok);
 	}
 	

@@ -1,10 +1,14 @@
 package com.astroganit.api.util;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Optional;
 import java.util.Random;
+
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
 
 public class HUtil {
 
@@ -48,7 +52,9 @@ public class HUtil {
 	}
 	
 	public static String readFile(String filePath) throws IOException {
-        return new String(Files.readAllBytes(Paths.get(filePath)));
+		Resource resource = new ClassPathResource(filePath);
+		File file = resource.getFile();
+		return new String(Files.readAllBytes(file.toPath()));
     }
 	
 }
